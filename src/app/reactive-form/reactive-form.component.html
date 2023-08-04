@@ -1,0 +1,37 @@
+<h1>{{title}}</h1>
+<form [formGroup]="empForm" (ngSubmit)="onSubmit()">
+  <input type="text" placeholder="company Name"/>
+  <div formArrayName="employees">
+    <div *ngFor="let employee of employees().controls; let empIndex = index">
+      <div [formGroupName]="empIndex" class="employee-container">
+        ({{empIndex + 1}}) First Name:
+        <input type="text" formControlName="firstName"/>
+        Last Name: <input type="text" formControlName="lastName"/>
+        <button (click)="removeEmployee(empIndex)" class="remove">Remove</button>
+/////////////
+        <div formArrayName="skills" class="skills-container">
+          <div *ngFor="let skill of employeeSkills(empIndex).controls; let skillIndex = index" class="skill-set">
+            <div [formGroupName]="skillIndex">
+              ({{skillIndex + 1}}) Skill:
+              <input type="text" formControlName="skill" />
+              Experience: <input type="text" formControlName="exp" />
+
+              <button (click)="removeEmployeeSkill(empIndex, skillIndex)" class="remove">Remove</button>
+            </div>
+          </div>
+          <button type="button" (click)="addEmployeeSkill(empIndex)" class="add">Add</button>
+        </div>
+        //////////////
+      </div>
+    </div>
+  </div>
+  <p>
+    <button type="button" (click)="addEmployee()">Add Employee</button>
+  </p>
+  <p>
+    <button type="submit">Submit</button>
+  </p>
+</form>
+<pre>
+  {{this.empForm.value| json}}
+</pre>
